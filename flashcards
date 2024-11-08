@@ -1,0 +1,64 @@
+import random
+
+class Flashcard:
+    def __init__(self, question, answer):
+        self.question = question
+        self.answer = answer
+
+class FlashcardApp:
+    def __init__(self):
+        self.flashcards = []
+
+    def add_flashcard(self, question, answer):
+        flashcard = Flashcard(question, answer)
+        self.flashcards.append(flashcard)
+        print("Flashcard hozzáadva!")
+
+    def view_flashcards(self):
+        if not self.flashcards:
+            print("Nincsenek flashcardok.")
+            return
+        for idx, flashcard in enumerate(self.flashcards):
+            print(f"{idx + 1}. Kérdés: {flashcard.question} - Válasz: {flashcard.answer}")
+
+    def quiz(self):
+        if not self.flashcards:
+            print("Nincsenek flashcardok a kvízhez.")
+            return
+        random.shuffle(self.flashcards)
+        score = 0
+        for flashcard in self.flashcards:
+            user_answer = input(f"Kérdés: {flashcard.question}\nVálasz: ")
+            if user_answer.lower() == flashcard.answer.lower():
+                print("Helyes válasz!")
+                score += 1
+            else:
+                print(f"Helytelen válasz! A helyes válasz: {flashcard.answer}")
+        print(f"A kvíz véget ért! A pontszámod: {score}/{len(self.flashcards)}")
+
+def main():
+    app = FlashcardApp()
+    while True:
+        print("\nFlashcard Kvíz Alkalmazás")
+        print("1. Flashcard hozzáadása")
+        print("2. Flashcardok megtekintése")
+        print("3. Kvíz indítása")
+        print("4. Kilépés")
+        choice = input("Válassz egy lehetőséget [1/2/3/4]: ")
+
+        if choice == '1':
+            question = input("Add meg a kérdést: ")
+            answer = input("Add meg a választ: ")
+            app.add_flashcard(question, answer)
+        elif choice == '2':
+            app.view_flashcards()
+        elif choice == '3':
+            app.quiz()
+        elif choice == '4':
+            print("Kilépés...")
+            break
+        else:
+            print("Érvénytelen választás!")
+
+if __name__ == "__main__":
+    main()
